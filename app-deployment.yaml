@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: sampleapi
+  name: sampleapi-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sampleapi
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: sampleapi
+    spec:
+      containers:
+      - image: private.us.icr.io/rtiffany/sampleapi:v2.0
+        name: sampleapi
+        resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: sampleapi
+  name: sampleapi-svc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: sampleapi
+status:
+  loadBalancer: {}
